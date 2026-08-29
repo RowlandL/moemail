@@ -36,6 +36,14 @@ export async function middleware(request: Request) {
       return NextResponse.next()
     }
 
+    if (
+      pathname === '/api/health' ||
+      pathname === '/api/create-address' ||
+      pathname === '/api/mails'
+    ) {
+      return NextResponse.next()
+    }
+
     const session = await auth()
     if (!session?.user) {
       return NextResponse.json(

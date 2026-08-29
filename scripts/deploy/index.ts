@@ -283,7 +283,9 @@ const pushPagesSecret = () => {
     'AUTH_GITHUB_SECRET', 
     'AUTH_GOOGLE_ID', 
     'AUTH_GOOGLE_SECRET', 
-    'AUTH_SECRET'
+    'AUTH_SECRET',
+    'MAIL_API_TOKEN',
+    'MAIL_DOMAIN'
   ];
 
   try {
