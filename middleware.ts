@@ -32,16 +32,16 @@ export async function middleware(request: Request) {
       return handleApiKeyAuth(apiKey, pathname)
     }
 
+    if (pathname === '/api/config' && request.method === 'GET') {
+      return NextResponse.next()
+    }
+
     const session = await auth()
     if (!session?.user) {
       return NextResponse.json(
         { error: "未授权" },
         { status: 401 }
       )
-    }
-
-    if (pathname === '/api/config' && request.method === 'GET') {
-      return NextResponse.next()
     }
 
     for (const [route, permission] of Object.entries(API_PERMISSIONS)) {
