@@ -285,7 +285,8 @@ const pushPagesSecret = () => {
     'AUTH_GOOGLE_SECRET', 
     'AUTH_SECRET',
     'MAIL_API_TOKEN',
-    'MAIL_DOMAIN'
+    'MAIL_DOMAIN',
+    'MAIL_OWNER_USERNAME'
   ];
 
   try {

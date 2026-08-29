@@ -52,6 +52,7 @@ jobs:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           MAIL_API_TOKEN: ${{ secrets.MAIL_API_TOKEN }}
           MAIL_DOMAIN: ${{ secrets.MAIL_DOMAIN }}
+          MAIL_OWNER_USERNAME: ${{ secrets.MAIL_OWNER_USERNAME }}
         run: pnpm dlx tsx scripts/deploy/index.ts
 
       # Clean up

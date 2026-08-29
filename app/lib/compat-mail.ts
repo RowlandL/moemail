@@ -47,7 +47,12 @@ export function isCompatibilityAuthorized(headers: Headers, expectedToken: strin
 export function getCompatibilityConfig(env: Record<string, unknown>) {
   const token = typeof env.MAIL_API_TOKEN === "string" ? env.MAIL_API_TOKEN.trim() : ""
   const domain = typeof env.MAIL_DOMAIN === "string" ? env.MAIL_DOMAIN : ""
+  const ownerUsername = typeof env.MAIL_OWNER_USERNAME === "string"
+    ? env.MAIL_OWNER_USERNAME.trim()
+    : ""
   const normalizedDomain = normalizeDomain(domain)
 
-  return token && normalizedDomain ? { token, domain: normalizedDomain } : null
+  return token && normalizedDomain && ownerUsername
+    ? { token, domain: normalizedDomain, ownerUsername }
+    : null
 }

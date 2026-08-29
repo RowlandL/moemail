@@ -2,6 +2,7 @@ import assert from "node:assert/strict"
 import test from "node:test"
 import {
   buildCompatibilityAddress,
+  getCompatibilityConfig,
   isCompatibilityAuthorized,
 } from "../app/lib/compat-mail"
 
@@ -30,4 +31,19 @@ test("requires the exact compatibility bearer token", () => {
     false
   )
   assert.equal(isCompatibilityAuthorized(new Headers(), "business-token"), false)
+})
+
+test("requires a configured owner username", () => {
+  assert.deepEqual(
+    getCompatibilityConfig({
+      MAIL_API_TOKEN: "business-token",
+      MAIL_DOMAIN: "110mail.top",
+      MAIL_OWNER_USERNAME: " Rowland ",
+    }),
+    { token: "business-token", domain: "110mail.top", ownerUsername: "Rowland" }
+  )
+  assert.equal(
+    getCompatibilityConfig({ MAIL_API_TOKEN: "business-token", MAIL_DOMAIN: "110mail.top" }),
+    null
+  )
 })

@@ -8,7 +8,7 @@ import {
   isCompatibilityAuthorized,
   type CompatibilityAddressInput,
 } from "@/lib/compat-mail"
-import { emails } from "@/lib/schema"
+import { emails, users } from "@/lib/schema"
 
 export const runtime = "edge"
 
@@ -37,9 +37,22 @@ export async function POST(request: Request) {
   }
 
   const db = createDb()
+  const owner = await db.query.users.findFirst({
+    where: eq(sql`LOWER(${users.username})`, config.ownerUsername.toLowerCase()),
+  })
+  if (!owner) {
+    return NextResponse.json({ error: "绑定用户不存在" }, { status: 503 })
+  }
+
   const whereAddress = eq(sql`LOWER(${emails.address})`, address)
   const existing = await db.query.emails.findFirst({ where: whereAddress })
   if (existing) {
+    if (existing.userId && existing.userId !== owner.id) {
+      return NextResponse.json({ error: "该邮箱已归属其他用户" }, { status: 409 })
+    }
+    if (!existing.userId) {
+      await db.update(emails).set({ userId: owner.id }).where(eq(emails.id, existing.id)).run()
+    }
     return NextResponse.json({ address: existing.address })
   }
 
@@ -47,6 +60,7 @@ export async function POST(request: Request) {
   try {
     await db.insert(emails).values({
       address,
+      userId: owner.id,
       createdAt: now,
       expiresAt: new Date(now.getTime() + COMPATIBILITY_EXPIRY_MS),
     }).run()
