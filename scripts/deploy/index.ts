@@ -388,7 +388,7 @@ const deployEmailWorker = () => {
     console.log("✅ Email Worker deployed successfully");
   } catch (error) {
     console.error("❌ Email Worker deployment failed:", error);
-    // 继续执行而不中断
+    throw error;
   }
 };
 
@@ -402,7 +402,7 @@ const deployCleanupWorker = () => {
     console.log("✅ Cleanup Worker deployed successfully");
   } catch (error) {
     console.error("❌ Cleanup Worker deployment failed:", error);
-    // 继续执行而不中断
+    throw error;
   }
 };
 
