@@ -12,7 +12,7 @@ import { emails, users } from "@/lib/schema"
 
 export const runtime = "edge"
 
-const COMPATIBILITY_EXPIRY_MS = 24 * 60 * 60 * 1000
+const COMPATIBILITY_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000
 
 export async function POST(request: Request) {
   const config = getCompatibilityConfig(getRequestContext().env as unknown as Record<string, unknown>)
