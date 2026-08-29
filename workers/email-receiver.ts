@@ -11,8 +11,6 @@ const handleEmail = async (message: ForwardableEmailMessage, env: Env) => {
 
   const parsedMessage = await PostalMime.parse(message.raw)
 
-  console.log("parsedMessage:", parsedMessage)
-
   try {
     const targetEmail = await db.query.emails.findFirst({
       where: eq(sql`LOWER(${emails.address})`, message.to.toLowerCase())
@@ -72,4 +70,4 @@ const worker = {
   }
 }
 
-export default worker 
+export default worker
